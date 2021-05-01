@@ -4,23 +4,19 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.util.Collection;
+import javax.persistence.*;
 
 @ToString(exclude = {"product", "orders"})
 @Setter
 @Getter
 @Entity
 public class OrdersProduct extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_product_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "orders_product_id")
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orders_id")
     private Orders orders;
 
     private Long price;

@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.time.LocalDateTime;
 
 @ToString
 @Setter
@@ -15,4 +16,6 @@ import javax.persistence.Entity;
 public class Movie extends Product {
     private String director;
     private String actor;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

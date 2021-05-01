@@ -17,6 +17,8 @@ public class Member extends BaseEntity {
     public Member() {}
 
     private String password;
+
+    @Column(unique = true)
     private String name;
 
     @Embedded
