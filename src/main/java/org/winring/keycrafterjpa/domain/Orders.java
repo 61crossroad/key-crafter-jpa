@@ -34,7 +34,7 @@ public class Orders extends BaseEntity {
     }
 
     public void addOrdersProduct(OrdersProduct ordersProduct) {
-        ordersProducts.add(ordersProduct);
+        this.ordersProducts.add(ordersProduct);
         ordersProduct.setOrders(this);
     }
 
