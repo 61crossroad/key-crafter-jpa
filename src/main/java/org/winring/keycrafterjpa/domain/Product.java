@@ -33,11 +33,9 @@ public abstract class Product {
 
     public void removeQuantity(Integer quantity) {
         int restQuantity = this.quantity - quantity;
-
         if (restQuantity < 0) {
             throw new NotEnoughQuantityException("need more product.");
         }
-
         this.quantity = restQuantity;
     }
 }
