@@ -37,6 +37,8 @@ public class MemberServiceTest {
 
             memberService.join(member);
         }
+
+
     }
 
     @Test
@@ -44,7 +46,7 @@ public class MemberServiceTest {
         List<Member> result = memberService.findMembers();
         Long id = (long) (result.size() / 2);
         Member savedMember = result.stream()
-                .filter(m -> m.getId() == id)
+                .filter(m -> id.equals(m.getId()))
                 .findAny()
                 .orElseThrow(NoSuchElementException::new);
 
