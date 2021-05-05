@@ -48,7 +48,7 @@ public class Orders extends BaseEntity {
         }
 
         this.setStatus(OrderStatus.CANCELLED);
-        ordersProducts.forEach(op -> op.cancel());
+        ordersProducts.forEach(OrdersProduct::cancel);
     }
 
     public int getTotalPrice() {
