@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class Orders extends BaseEntity {
     private Member member;
 
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
-    private List<OrdersProduct> ordersProducts;
+    private List<OrdersProduct> ordersProducts = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_id")
@@ -52,9 +53,15 @@ public class Orders extends BaseEntity {
     }
 
     public int getTotalPrice() {
-        return ordersProducts.stream()
-                .mapToInt(OrdersProduct::getPrice)
-                .sum();
+        int totalPrice = 0;
+        for (OrdersProduct ordersProduct : ordersProducts) {
+            totalPrice += ordersProduct.getPrice();
+        }
+        return totalPrice;
+
+//        return ordersProducts.stream()
+//                .mapToInt(OrdersProduct::getPrice)
+//                .sum();
     }
 
     public void setMember(Member member) {

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.winring.keycrafterjpa.domain.Movie;
 import org.winring.keycrafterjpa.domain.Product;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Transactional

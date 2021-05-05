@@ -15,7 +15,7 @@ public class OrdersService {
     private final OrdersRepository ordersRepository;
     private final ProductService productService;
 
-    public Long orders(Long memberId, Long productId, int quantity) {
+    public Long order(Long memberId, Long productId, int quantity) {
         // Find Entities
         Member member = memberRepository.findOne(memberId);
         Product product = productService.findOne(productId);
@@ -33,6 +33,10 @@ public class OrdersService {
     public void cancelOrder(Long orderId) {
         Orders orders = ordersRepository.findOne(orderId);
         orders.cancel();
+    }
+
+    public Orders findOne(Long id) {
+        return ordersRepository.findOne(id);
     }
 
     public List<Orders> findOrders(OrderSearch orderSearch) {
