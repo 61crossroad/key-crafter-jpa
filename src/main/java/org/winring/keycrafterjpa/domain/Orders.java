@@ -8,6 +8,8 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
+import static java.util.stream.Collectors.summingInt;
+
 @ToString(exclude = {"member", "ordersProducts", "delivery"})
 @Setter
 @Getter
@@ -26,6 +28,34 @@ public class Orders extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    public static Orders createOrders(Member member, Delivery delivery, OrdersProduct... ordersProducts) {
+        Orders order = new Orders();
+        order.setMember(member);
+        order.setDelivery(delivery);
+        for (OrdersProduct ordersProduct : ordersProducts) {
+            order.addOrdersProduct(ordersProduct);
+        }
+        order.setStatus(OrderStatus.ORDERED);
+        return order;
+    }
+
+    public void cancel() {
+        if (delivery.getStatus().equals(DeliveryStatus.DEPARTURE)) {
+            throw new RuntimeException(
+                    "이미 배송완료된 상품은 취소가 불가능합니다."
+            );
+        }
+
+        this.setStatus(OrderStatus.CANCELLED);
+        ordersProducts.forEach(op -> op.cancel());
+    }
+
+    public int getTotalPrice() {
+        return ordersProducts.stream()
+                .mapToInt(OrdersProduct::getPrice)
+                .sum();
+    }
 
     public void setMember(Member member) {
         Collection<Orders> thisMemberOrders = this.member == null ? null : this.member.getOrders();

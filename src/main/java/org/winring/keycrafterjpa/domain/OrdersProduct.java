@@ -21,4 +21,22 @@ public class OrdersProduct extends BaseEntity {
 
     private Integer price;
     private Integer quantity;
+
+    public static OrdersProduct createOrdersProduct(Product product, int orderPrice, int quantity) {
+        OrdersProduct ordersProduct = new OrdersProduct();
+        ordersProduct.setProduct(product);
+        ordersProduct.setPrice(orderPrice);
+        ordersProduct.setQuantity(quantity);
+
+        product.removeQuantity(quantity);
+        return ordersProduct;
+    }
+
+    public void cancel() {
+        this.getProduct().addQuantity(this.quantity);
+    }
+
+    public int getTotalPrice() {
+        return this.getPrice() * this.getQuantity();
+    }
 }
