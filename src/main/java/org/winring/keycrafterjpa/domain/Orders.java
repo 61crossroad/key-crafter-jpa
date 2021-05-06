@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static java.util.stream.Collectors.summingInt;
-
 @ToString(exclude = {"member", "ordersProducts", "delivery"})
 @Setter
 @Getter
@@ -53,15 +51,9 @@ public class Orders extends BaseEntity {
     }
 
     public int getTotalPrice() {
-        int totalPrice = 0;
-        for (OrdersProduct ordersProduct : ordersProducts) {
-            totalPrice += ordersProduct.getPrice();
-        }
-        return totalPrice;
-
-//        return ordersProducts.stream()
-//                .mapToInt(OrdersProduct::getPrice)
-//                .sum();
+        return ordersProducts.stream()
+                .mapToInt(OrdersProduct::getTotalPrice)
+                .sum();
     }
 
     public void setMember(Member member) {

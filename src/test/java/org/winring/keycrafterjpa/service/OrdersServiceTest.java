@@ -1,13 +1,11 @@
 package org.winring.keycrafterjpa.service;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import org.winring.keycrafterjpa.domain.*;
-import org.winring.keycrafterjpa.exception.NotEnoughQuantityException;
 import org.winring.keycrafterjpa.repository.OrdersRepository;
 
 import javax.persistence.EntityManager;
@@ -45,8 +43,7 @@ public class OrdersServiceTest {
 
         Assertions.assertEquals(OrderStatus.ORDERED, getOrder.getStatus(), "OrderStatus is ORDERED");
         Assertions.assertEquals(1, getOrder.getOrdersProducts().size(), "Assert order quantity");
-        // FIXME: price * orderQuantity not matched!
-        Assertions.assertEquals(price /* * orderQuantity */, getOrder.getTotalPrice(), "Assert TotalPrice");
+        Assertions.assertEquals(price * orderQuantity, getOrder.getTotalPrice(), "Assert TotalPrice");
         Assertions.assertEquals(stockQuantity - orderQuantity, product.getQuantity());
     }
 

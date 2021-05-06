@@ -2,12 +2,14 @@ package org.winring.keycrafterjpa.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.winring.keycrafterjpa.domain.*;
 import org.winring.keycrafterjpa.repository.MemberRepository;
 import org.winring.keycrafterjpa.repository.OrdersRepository;
 
 import java.util.List;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class OrdersService {
