@@ -18,9 +18,9 @@ public class Delivery extends BaseEntity {
     private Address address;
 
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus status;
+    private DeliveryStatus status = DeliveryStatus.NONE;
 
-    public Delivery(Address address) {
-        this.address = address;
-    }
+    public Delivery() {}
+
+    public Delivery(Address address) {this.address = address;}
 }

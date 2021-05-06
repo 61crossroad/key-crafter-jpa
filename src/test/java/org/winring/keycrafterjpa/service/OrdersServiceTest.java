@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import org.winring.keycrafterjpa.domain.*;
+import org.winring.keycrafterjpa.exception.NotEnoughQuantityException;
 import org.winring.keycrafterjpa.repository.OrdersRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 
 @Transactional
 @SpringBootTest
@@ -39,7 +39,7 @@ public class OrdersServiceTest {
         Long orderId = ordersService.order(member.getId(), product.getId(), orderQuantity);
 
         // Then
-        Orders getOrder = ordersService.findOne(orderId);
+        Orders getOrder = ordersRepository.findOne(orderId);
 
         Assertions.assertEquals(OrderStatus.ORDERED, getOrder.getStatus(), "OrderStatus is ORDERED");
         Assertions.assertEquals(1, getOrder.getOrdersProducts().size(), "Assert order quantity");
@@ -48,10 +48,39 @@ public class OrdersServiceTest {
     }
 
     @Test
-    public void notEnoughProductQuantityTest() { }
+    public void notEnoughProductQuantityTest() {
+        // Given
+        Member member = this.createMember();
+        Product product = this.createBook("Old Testament", 22222, 22);
+        int orderQuantity = 23;
+
+        Assertions.assertThrows(
+                // Then
+                NotEnoughQuantityException.class,
+                // When
+                () -> ordersService.order(member.getId(), product.getId(), orderQuantity));
+    }
 
     @Test
-    public void cancelOrder() { }
+    public void cancelOrder() {
+        // Given
+        Member member = this.createMember();
+        Product product = this.createBook("Samba do Aviao", 11111, 11);
+        int orderQuantity = 2;
+
+        Long orderId = ordersService.order(member.getId(), product.getId(), orderQuantity);
+
+        Assertions.assertEquals(9, product.getQuantity());
+        
+        // When
+        ordersService.cancelOrder(orderId);
+
+        // Then
+        Orders getOrder = ordersRepository.findOne(orderId);
+
+        Assertions.assertEquals(OrderStatus.CANCELLED, getOrder.getStatus());
+        Assertions.assertEquals(11, product.getQuantity());
+    }
 
     private Member createMember() {
         Member member = new Member();

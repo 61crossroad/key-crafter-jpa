@@ -1,5 +1,5 @@
 package org.winring.keycrafterjpa.domain;
 
 public enum DeliveryStatus {
-    DEPARTURE, IN_TRANSIT, ARRIVAL
+    NONE, DEPARTURE, IN_TRANSIT, ARRIVAL
 }
