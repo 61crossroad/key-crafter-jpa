@@ -11,6 +11,7 @@ import org.winring.keycrafterjpa.repository.OrdersRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Transactional
 @SpringBootTest
@@ -23,6 +24,26 @@ public class OrdersServiceTest {
 
     @Autowired
     private OrdersRepository ordersRepository;
+
+    @Test
+    public void findAllJpaTest() {
+        orderProductTest();
+
+        OrderSearch orderSearch = new OrderSearch();
+        orderSearch.setMemberName("member1");
+        // orderSearch.setOrderStatus(OrderStatus.ORDERED);
+        List<Orders> result = ordersService.findOrdersJpa(orderSearch);
+        Assertions.assertTrue(result.size() > 0);
+        result.forEach(row -> Assertions.assertEquals("member1", row.getMember().getName()));
+    }
+
+    @Test
+    public void orderProductQuerydslTest() {
+        orderProductTest();
+
+        Orders getOrder = ordersService.findOneJpa(1L);
+        Assertions.assertEquals(getOrder.getOrdersProducts().get(0).getProduct().getName(), "New Testament");
+    }
 
     @Test
     public void orderProductTest() {

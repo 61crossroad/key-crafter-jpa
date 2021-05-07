@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.winring.keycrafterjpa.domain.*;
+import org.winring.keycrafterjpa.repository.CustomOrderRepository;
 import org.winring.keycrafterjpa.repository.MemberRepository;
 import org.winring.keycrafterjpa.repository.OrdersJpaRepository;
 import org.winring.keycrafterjpa.repository.OrdersRepository;
@@ -16,8 +17,9 @@ import java.util.List;
 public class OrdersService {
     private final MemberRepository memberRepository;
     private final OrdersRepository ordersRepository;
-    private final OrdersJpaRepository ordersJpaRepository;
     private final ProductService productService;
+    private final OrdersJpaRepository ordersJpaRepository;
+    private final CustomOrderRepository customOrderRepository;
 
     public Long order(Long memberId, Long productId, int quantity) {
         // Find Entities
@@ -46,5 +48,13 @@ public class OrdersService {
     public List<Orders> findOrders(OrderSearch orderSearch) {
         // return ordersRepository.findAll(orderSearch);
         return ordersJpaRepository.findAll(orderSearch.toSpecification());
+    }
+
+    public Orders findOneJpa(Long id) {
+        return customOrderRepository.findById(id);
+    }
+
+    public List<Orders> findOrdersJpa(OrderSearch orderSearch) {
+        return customOrderRepository.findAll(orderSearch);
     }
 }
