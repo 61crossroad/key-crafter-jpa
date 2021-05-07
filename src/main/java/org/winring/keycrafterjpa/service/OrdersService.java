@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.winring.keycrafterjpa.domain.*;
 import org.winring.keycrafterjpa.repository.MemberRepository;
+import org.winring.keycrafterjpa.repository.OrdersJpaRepository;
 import org.winring.keycrafterjpa.repository.OrdersRepository;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 public class OrdersService {
     private final MemberRepository memberRepository;
     private final OrdersRepository ordersRepository;
+    private final OrdersJpaRepository ordersJpaRepository;
     private final ProductService productService;
 
     public Long order(Long memberId, Long productId, int quantity) {
@@ -42,6 +44,7 @@ public class OrdersService {
     }
 
     public List<Orders> findOrders(OrderSearch orderSearch) {
-        return ordersRepository.findAll(orderSearch);
+        // return ordersRepository.findAll(orderSearch);
+        return ordersJpaRepository.findAll(orderSearch.toSpecification());
     }
 }
